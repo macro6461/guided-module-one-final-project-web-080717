@@ -14,22 +14,20 @@ ms_dawn = Teacher.create(name: "Ms. Michelle Dawn", teacher_number: 230185)
 mr_doyle = Teacher.create(name: "Mr. James Doyle", teacher_number: 230005)
 mrs_doyle = Teacher.create(name: "Mrs. Carla Doyle", teacher_number: 230025)
 
-
-
 #STUDENTS
 
-mike = Student.create(name: "Michael Foster", student_number: 145765)
-kyle = Student.create(name: "Kyle Joseph", student_number: 145725)
-samantha = Student.create(name: "Samantha Nisanov", student_number: 145835)
-maria = Student.create(name: "Maria Malon", student_number: 145002)
-lenora = Student.create(name: "Lenora Green", student_number: 145708)
-julie = Student.create(name: "Julie Bennet", student_number: 145732)
-dave = Student.create(name: "David O'Connor", student_number: 145822)
-kate = Student.create(name: "Kate Martinez", student_number: 145923)
-john = Student.create(name: "John Cho", student_number: 145405)
-james = Student.create(name: "James Connor", student_number: 145555)
-olena = Student.create(name: "Olenna Tyrell", student_number: 145545)
-geoff = Student.create(name: "Geoffrey Lannister", student_number: 145206)
+mike = Student.create(name: "Michael Foster", student_number: 145765, grade: nil)
+kyle = Student.create(name: "Kyle Joseph", student_number: 145725, grade: nil)
+samantha = Student.create(name: "Samantha Nisanov", student_number: 145835, grade: nil)
+maria = Student.create(name: "Maria Malon", student_number: 145002, grade: nil)
+lenora = Student.create(name: "Lenora Green", student_number: 145708, grade: nil)
+julie = Student.create(name: "Julie Bennet", student_number: 145732, grade: nil)
+dave = Student.create(name: "David O'Connor", student_number: 145822, grade: nil)
+kate = Student.create(name: "Kate Martinez", student_number: 145923, grade: nil)
+john = Student.create(name: "John Cho", student_number: 145405, grade: nil)
+james = Student.create(name: "James Connor", student_number: 145555, grade: nil)
+olena = Student.create(name: "Olenna Tyrell", student_number: 145545, grade: nil)
+geoff = Student.create(name: "Geoffrey Lannister", student_number: 145206, grade: nil)
 
 
 #SUBJECTS

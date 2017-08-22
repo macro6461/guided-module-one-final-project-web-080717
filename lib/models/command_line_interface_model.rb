@@ -7,12 +7,28 @@ class CommandLineInterfaceModel
     puts "Welcome to the Classy Directory!"
   end
 
-
   def gets_user_input
     puts "Are you a student or a teacher?"
     gets.chomp.downcase
   end
 
+  def add_grade
+    @grade = gets.chomp
+    if @grade != nil
+      Student.find_by(name: @student.name)
+      @student.grade = @grade
+      puts "#{@student.name} now has a grade of #{@student.grade}"
+      binding.pry
+      can_we_help
+    else
+      would_you_give_a_grade
+    end
+  end
+
+  def view_gpa
+    puts "Your current GPA is #{@student.grade}"
+    can_we_help
+  end
 
   def try_again
     puts "Invalid command. Please enter either 'teacher' or 'student'."
@@ -116,16 +132,32 @@ class CommandLineInterfaceModel
     print_class_schedule
   end
 
+  def print_class_schedule
+    puts "|---------------------------------------------------"
+    puts "| CLASS  *with*  TEACHER                            "
+    @student.teachers.each do |teacher|
+      puts "|---------------------------------------------------"
+      puts "| #{teacher.subjects[0].name.upcase} *with* #{teacher.name.upcase}"
+    end
+    puts "Would you like to view your GPA?"
+    yes_or_no
+    do_you_want_to_view_your_grade
+  end
+
+  def do_you_want_to_view_your_grade
+    input = gets.chomp.downcase
+    if input == "yes"
+      view_gpa
+    elsif input == "no"
+      can_we_help
+    else
+      do_you_want_to_view_your_grade
+    end
+  end
+
   def list_teacher_subjects
     puts "Here are your classes for the day: "
     print_teacher_class_schedule
-  end
-
-  def list_students_in_class
-    @teacher.students.each do |student|
-      puts student.name
-    end
-    can_we_help
   end
 
   def see_students
@@ -140,6 +172,46 @@ class CommandLineInterfaceModel
     end
   end
 
+  def would_you_give_a_grade
+    puts "Would you like to give one of these students a grade?"
+    yes_or_no
+    input = gets.chomp.downcase
+    if input == "yes"
+      pick_student
+    elsif input == "no"
+      can_we_help
+    else
+      would_you_give_a_grade
+    end
+  end
+
+  def pick_student
+    puts "Please enter the name of the student would you like grade?"
+    input = gets.chomp.split.map(&:capitalize).join(' ')
+    @student = Student.find_by(name: input)
+     if @student != nil
+       puts "Please enter a grade for #{@student.name}"
+       add_grade
+     else
+       puts "Do you want to continue?"
+       yes_or_no
+       if input == "yes"
+         pick_student
+       elsif input == "no"
+         can_we_help
+       else
+         pick_student
+       end
+     end
+  end
+
+  def list_students_in_class
+    @teacher.students.each do |student|
+      puts student.name
+    end
+    would_you_give_a_grade
+  end
+
   def print_teacher_class_schedule
     subjects = @teacher.subjects.collect do |subject|
       subject.name
@@ -149,15 +221,7 @@ class CommandLineInterfaceModel
     see_students
   end
 
-  def print_class_schedule
-    puts "|---------------------------------------------------"
-    puts "| CLASS  *with*  TEACHER                            "
-    @student.teachers.each do |teacher|
-      puts "|---------------------------------------------------"
-      puts "| #{teacher.subjects[0].name.upcase} *with* #{teacher.name.upcase}"
-    end
-    can_we_help
-  end
+##### HELPERS #####
 
   def exit_or_continue
     yes_or_no
