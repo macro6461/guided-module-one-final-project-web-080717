@@ -50,14 +50,17 @@ class CommandLineInterfaceModel
   def view_gpa
     # binding.pry
     if @student.gpa >= 90.0
-      puts "Your current GPA is" + " #{@student.gpa.round(2)}".bold.green
+      puts "Your current GPA is" + " #{@student.gpa.round(2)}".bold.green + " 😁"
       puts "Remember this day, #{@student.name.upcase}, for it will be yours for" + " ALL TIME!".bold.green
     elsif @student.gpa.round(2).between?(65.0, 89.99)
-      puts "Your current GPA is" + " #{@student.gpa.round(2)}".bold.yellow
+      puts "Your current GPA is" + " #{@student.gpa.round(2)}".bold.yellow + " 😒"
       puts "You're doing..." + "fine".bold.yellow + ". Just " + "fine".bold.yellow + ". Are you happy with being..." + "just fine?".bold.yellow + " Or do you want to be more than..." + "just fine".bold.yellow + "?" + "I think you want more than fine but you're too scared to chase" + " GREATNESS".bold.green + ". Chase it. Quit your job. Start a fight. Prove you're alive. If you don't claim your humanity you will become a statistic." + " You have been warned.".bold.red
-    elsif @student.gpa.round(2) < 65.0
-      puts "Your current GPA is" + " #{@student.gpa.round(2)}".bold.red.blink
+    elsif @student.gpa.round(2).between?(40.0, 64.99)
+      puts "Your current GPA is" + " #{@student.gpa.round(2)}".bold.red + "🔥".blink + "😰" + "🔥".blink
       puts "You are" + " FAILING!!!".bold.red + " get it together #{@student.name}! COME ON! Do you think this is a" + " JOKE???".bold.red + " What have we got here, a fu*&ing comedian?? Private Joker??? I admire your honesty. Hell, I like you. You can come over to my house and - OK I'm getting off track here but the point is you're failing and you need to get it together."
+    elsif @student.gpa.round(2) <= 39.99
+      puts puts "Your current GPA is" + " #{@student.gpa.round(2)}".bold.red + "🔥".blink + "😰" + "🔥".blink
+      Launchy.open("https://www.youtube.com/watch?v=aYmOqPFyJPw")
     end
     can_we_help
   end
