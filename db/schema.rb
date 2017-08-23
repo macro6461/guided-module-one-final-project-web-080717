@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 20170823144457) do
   create_table "students", force: :cascade do |t|
     t.string "name"
     t.integer "student_number"
-    t.integer "gpa"
+    t.float "gpa"
   end
 
   create_table "subjects", force: :cascade do |t|

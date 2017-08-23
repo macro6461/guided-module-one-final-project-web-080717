@@ -48,7 +48,7 @@ class CommandLineInterfaceModel
   end
 
   def view_gpa
-    binding.pry
+    # binding.pry
     puts "Your current GPA is #{@student.gpa}"
     can_we_help
   end
