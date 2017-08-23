@@ -49,18 +49,27 @@ class CommandLineInterfaceModel
 
   def view_gpa
     # binding.pry
-    puts "Your current GPA is #{@student.gpa.round(2)}"
+    if @student.gpa >= 90.0
+      puts "Your current GPA is" + " #{@student.gpa.round(2)}".bold.green
+      puts "Remember this day, #{@student.name.upcase}, for it will be yours for" + " ALL TIME!".bold.green
+    elsif @student.gpa.round(2).between?(65.0, 89.99)
+      puts "Your current GPA is" + " #{@student.gpa.round(2)}".bold.yellow
+      puts "You're doing..." + "fine".bold.yellow + ". Just " + "fine".bold.yellow + ". Are you happy with being..." + "just fine?".bold.yellow + " Or do you want to be more than..." + "just fine".bold.yellow + "?" + "I think you want more than fine but you're too scared to chase" + " GREATNESS".bold.green + ". Chase it. Quit your job. Start a fight. Prove you're alive. If you don't claim your humanity you will become a statistic." + " You have been warned.".bold.red
+    elsif @student.gpa.round(2) < 65.0
+      puts "Your current GPA is" + " #{@student.gpa.round(2)}".bold.red.blink
+      puts "You are" + " FAILING!!!".bold.red + " get it together #{@student.name}! COME ON! Do you think this is a" + " JOKE???".bold.red + " What have we got here, a fu*&ing comedian?? Private Joker??? I admire your honesty. Hell, I like you. You can come over to my house and - OK I'm getting off track here but the point is you're failing and you need to get it together."
+    end
     can_we_help
   end
 
   def try_again
-    puts "Invalid command. Please enter either 'teacher' or 'student'."
+    puts "Invalid command. ".bold.red + "Please enter either" + " 'teacher' ".bold.green + "or" + " 'student' ".bold.green + "."
     run_again
   end
 
 
   def enter_student_number
-    puts "Pease enter your student number."
+    puts "Please enter your student number."
     @input = gets.chomp
     if @input != nil
       find_student
