@@ -17,12 +17,21 @@ class CommandLineInterfaceModel
     if @grade != nil
       Student.find_by(name: @student.name)
       @student.grade = @grade
+      @student.update(grade: @student.grade)
       puts "#{@student.name} now has a grade of #{@student.grade}"
-      binding.pry
       can_we_help
     else
       would_you_give_a_grade
     end
+  end
+
+  def gpa
+    sum = 0
+    grades = @student.all.each do |student|
+      @student.grade += sum
+    end
+    sum.to_f / grades.size
+    # binding.pry
   end
 
   def view_gpa
@@ -82,7 +91,7 @@ class CommandLineInterfaceModel
     @teacher = Teacher.find_by(teacher_number: @input)
      if @teacher != nil
        puts "Hello, #{@teacher.name}!"
-       puts "Would you like to see your official class schedule?"
+       puts "Would you like to see what classes you're teaching today?"
        yes_or_no
      else
        enter_teacher_number
@@ -133,12 +142,13 @@ class CommandLineInterfaceModel
   end
 
   def print_class_schedule
-    puts "|---------------------------------------------------"
-    puts "| CLASS  *with*  TEACHER                            "
+    puts "|-------------------------------------------------------------"
+    printf "|%-20s %s\n", "CLASS".bold.green, "             GRADE                  TEACHER".bold.green
     @student.teachers.each do |teacher|
-      puts "|---------------------------------------------------"
-      puts "| #{teacher.subjects[0].name.upcase} *with* #{teacher.name.upcase}"
+      puts "|-------------------------------------------------------------"
+      printf "|%-20s %s\n", teacher.subjects[0].name.upcase, "#{@student.grade}              #{teacher.name.upcase} "
     end
+      puts "|-------------------------------------------------------------"
     puts "Would you like to view your GPA?"
     yes_or_no
     do_you_want_to_view_your_grade
@@ -156,7 +166,7 @@ class CommandLineInterfaceModel
   end
 
   def list_teacher_subjects
-    puts "Here are your classes for the day: "
+    puts "Today you are teaching: "
     print_teacher_class_schedule
   end
 
@@ -193,22 +203,16 @@ class CommandLineInterfaceModel
        puts "Please enter a grade for #{@student.name}"
        add_grade
      else
-       puts "Do you want to continue?"
-       yes_or_no
-       if input == "yes"
-         pick_student
-       elsif input == "no"
-         can_we_help
-       else
-         pick_student
-       end
+       pick_student
      end
   end
 
   def list_students_in_class
+    puts "-----------------------------"
     @teacher.students.each do |student|
-      puts student.name
+      printf "%-20s %s\n", student.name, "gpa = #{student.grade}"
     end
+    puts "-----------------------------"
     would_you_give_a_grade
   end
 
@@ -216,7 +220,9 @@ class CommandLineInterfaceModel
     subjects = @teacher.subjects.collect do |subject|
       subject.name
     end
+    puts "------------------------------"
     puts subjects.uniq
+    puts "------------------------------"
     puts "Would you like to see a list of your students?"
     see_students
   end
