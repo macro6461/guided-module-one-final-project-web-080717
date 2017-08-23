@@ -17,18 +17,18 @@ mrs_doyle = Teacher.create(name: "Mrs. Carla Doyle", teacher_number: 230025)
 
 #STUDENTS
 
-mike = Student.create(name: "Michael Foster", student_number: 145765, gpa: nil)
-kyle = Student.create(name: "Kyle Joseph", student_number: 145725, gpa: nil)
-samantha = Student.create(name: "Samantha Nisanov", student_number: 145835, gpa: nil)
-maria = Student.create(name: "Maria Malon", student_number: 145002, gpa: nil)
-lenora = Student.create(name: "Lenora Green", student_number: 145708, gpa: nil)
-julie = Student.create(name: "Julie Bennet", student_number: 145732, gpa: nil)
-dave = Student.create(name: "David Connor", student_number: 145822, gpa: nil)
-kate = Student.create(name: "Kate Martinez", student_number: 145923, gpa: nil)
-john = Student.create(name: "John Cho", student_number: 145405, gpa: nil)
-james = Student.create(name: "James Connor", student_number: 145555, gpa: nil)
-olena = Student.create(name: "Olenna Tyrell", student_number: 145545, gpa: nil)
-geoff = Student.create(name: "Geoffrey Lannister", student_number: 145206, gpa: nil)
+mike = Student.create(name: "Michael Foster", student_number: 145765, gpa: 0)
+kyle = Student.create(name: "Kyle Joseph", student_number: 145725, gpa: 0)
+samantha = Student.create(name: "Samantha Nisanov", student_number: 145835, gpa: 0)
+maria = Student.create(name: "Maria Malon", student_number: 145002, gpa: 0)
+lenora = Student.create(name: "Lenora Green", student_number: 145708, gpa: 0)
+julie = Student.create(name: "Julie Bennet", student_number: 145732, gpa: 0)
+dave = Student.create(name: "David Connor", student_number: 145822, gpa: 0)
+kate = Student.create(name: "Kate Martinez", student_number: 145923, gpa: 0)
+john = Student.create(name: "John Cho", student_number: 145405, gpa: 0)
+james = Student.create(name: "James Connor", student_number: 145555, gpa: 0)
+olena = Student.create(name: "Olenna Tyrell", student_number: 145545, gpa: 0)
+geoff = Student.create(name: "Geoffrey Lannister", student_number: 145206, gpa: 0)
 
 
 #SUBJECTS

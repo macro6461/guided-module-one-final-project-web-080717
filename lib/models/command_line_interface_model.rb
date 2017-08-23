@@ -65,6 +65,60 @@ class CommandLineInterfaceModel
     can_we_help
   end
 
+  def before_you_go
+    puts "Before you go..."
+    puts "Do you want to see who has the highest gpa?"
+    yes_or_no
+    input = gets.chomp.downcase
+    if input == "yes"
+      highest_gpa
+    elsif input == "no"
+      exit_program
+    else
+      before_you_go
+    end
+  end
+
+  def highest_gpa
+    all_gpas = Student.all.collect do |student|
+      student.gpa
+    end
+    # binding.pry
+    highest = all_gpas.sort.max
+    best_student = Student.all.find do |student|
+      student.gpa == highest
+    end
+    puts "#{best_student.name}".bold.green + " has the highest GPA at a WHOPPING" + " #{highest}!".bold.green + " 🥇 " + " 👏 ".blink + " 🥇 " + " 👏 ".blink + " 🥇 " + " 👏 ".blink + " 🥇 "
+    puts "------------------------------------------------------------------------"
+    do_you_want_to_see_lowest_gpa
+  end
+
+  def do_you_want_to_see_lowest_gpa
+    puts "Do you want to see who had the lowest GPA?"
+    yes_or_no
+    input = gets.chomp
+    if input == "yes"
+      lowest_gpa
+    elsif input == "no"
+      exit_program
+    else
+      do_you_want_to_see_lowest_gpa
+    end
+  end
+
+  def lowest_gpa
+    all_gpas = Student.all.collect do |student|
+      student.gpa
+    end
+    lowest = all_gpas.sort.min
+    worst_student = Student.all.find do |student|
+      student.gpa == lowest
+    end
+    puts "#{worst_student.name}".bold.red + " has the lowest GPA at a PITIFUL" + " #{lowest}! ".bold.red + " 😭 " + " 😰 ".blink + " 😭 " + " 😰 ".blink + " 😭 " + " 😰 ".blink + " 😭 "
+    puts "------------------------------------------------------------------------"
+    exit_program
+  end
+
   def try_again
     puts "Invalid command. ".bold.red + "Please enter either" + " 'teacher' ".bold.green + "or" + " 'student' ".bold.green + "."
     run_again
@@ -267,7 +321,7 @@ class CommandLineInterfaceModel
     if input == "yes"
       run_again
     elsif input == "no"
-      exit_program
+      before_you_go
     else
       exit_or_continue
     end
