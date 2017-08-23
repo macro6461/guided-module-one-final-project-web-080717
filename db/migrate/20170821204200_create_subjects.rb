@@ -4,6 +4,7 @@ class CreateSubjects < ActiveRecord::Migration[5.1]
       t.string :name
       t.integer :student_id
       t.integer :teacher_id
+      t.integer :student_grade
     end
   end
 end

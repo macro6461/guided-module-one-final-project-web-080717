@@ -10,18 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170822211328) do
+ActiveRecord::Schema.define(version: 20170823144457) do
 
   create_table "students", force: :cascade do |t|
     t.string "name"
     t.integer "student_number"
-    t.integer "grade"
+    t.integer "gpa"
   end
 
   create_table "subjects", force: :cascade do |t|
     t.string "name"
     t.integer "student_id"
     t.integer "teacher_id"
+    t.integer "student_grade"
   end
 
   create_table "teachers", force: :cascade do |t|

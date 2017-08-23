@@ -13,29 +13,43 @@ class CommandLineInterfaceModel
   end
 
   def add_grade
-    @grade = gets.chomp
-    if @grade != nil
-      Student.find_by(name: @student.name)
-      @student.grade = @grade
-      @student.update(grade: @student.grade)
-      puts "#{@student.name} now has a grade of #{@student.grade}"
+    grade = gets.chomp
+    if grade != nil
+      current_student = Student.find_by(name: @student.name)
+      @subject = Subject.find_by(teacher_id: @teacher.id, student_id: current_student.id)
+      @subject.student_grade = grade
+      @subject.update(student_grade: grade)
+      puts "#{@student.name} now has a grade of #{@subject.student_grade}"
+      new_gpa = generate_gpa
+      current_student.update(gpa: new_gpa)
+      # binding.pry
       can_we_help
     else
       would_you_give_a_grade
     end
+    # new_gpa = generate_gpa
+    # binding.pry
+    # @student.update(gpa: new_gpa)
   end
 
-  def gpa
-    sum = 0
-    grades = @student.all.each do |student|
-      @student.grade += sum
-    end
-    sum.to_f / grades.size
-    # binding.pry
+  def generate_gpa
+      sum = 0
+      subjects = Subject.all.select do |subject|
+        subject.student_id == @student.id
+      end
+      grades = subjects.collect do |subj|
+        subj.student_grade
+      end
+      grades.each do |grade|
+        sum += grade
+      end
+      @student.update(gpa: (sum.to_f / grades.size))
+      @student.gpa
   end
 
   def view_gpa
-    puts "Your current GPA is #{@student.grade}"
+    binding.pry
+    puts "Your current GPA is #{@student.gpa}"
     can_we_help
   end
 
@@ -138,21 +152,23 @@ class CommandLineInterfaceModel
 
   def list_student_subjects_and_teachers
     puts "Here is your official class schedule:"
-    print_class_schedule
+    print_class_schedule_and_grades
   end
 
-  def print_class_schedule
+  def print_class_schedule_and_grades
     puts "|-------------------------------------------------------------"
     printf "|%-20s %s\n", "CLASS".bold.green, "             GRADE                  TEACHER".bold.green
-    @student.teachers.each do |teacher|
+    @student.subjects.each do |subject|
       puts "|-------------------------------------------------------------"
-      printf "|%-20s %s\n", teacher.subjects[0].name.upcase, "#{@student.grade}              #{teacher.name.upcase} "
+      printf "|%-20s %s\n", subject.name.upcase, "#{subject.student_grade}              #{subject.teacher.name.upcase} "
+      # binding.pry
     end
       puts "|-------------------------------------------------------------"
     puts "Would you like to view your GPA?"
     yes_or_no
     do_you_want_to_view_your_grade
   end
+
 
   def do_you_want_to_view_your_grade
     input = gets.chomp.downcase
@@ -196,7 +212,7 @@ class CommandLineInterfaceModel
   end
 
   def pick_student
-    puts "Please enter the name of the student would you like grade?"
+    puts "Please enter the name of the student would you like grade."
     input = gets.chomp.split.map(&:capitalize).join(' ')
     @student = Student.find_by(name: input)
      if @student != nil
@@ -208,11 +224,15 @@ class CommandLineInterfaceModel
   end
 
   def list_students_in_class
-    puts "-----------------------------"
-    @teacher.students.each do |student|
-      printf "%-20s %s\n", student.name, "gpa = #{student.grade}"
-    end
-    puts "-----------------------------"
+    # subjects = @teacher.subjects.collect do |subject|
+      puts "-----------------------------"
+      @teacher.students.each do |student|
+        subject_grade = Subject.find_by(teacher_id: @teacher.id, student_id: student.id)
+        # binding.pry
+        printf "%-20s %s\n", student.name, "grade = #{subject_grade.student_grade}"
+      end
+      puts "-----------------------------"
+    # end
     would_you_give_a_grade
   end
 
