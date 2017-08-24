@@ -73,7 +73,7 @@ class CommandLineInterfaceModel
     if input == "yes"
       highest_gpa
     elsif input == "no"
-      exit_program
+      do_you_want_to_see_lowest_gpa
     else
       before_you_go
     end
@@ -88,7 +88,7 @@ class CommandLineInterfaceModel
     best_student = Student.all.find do |student|
       student.gpa == highest
     end
-    puts "#{best_student.name}".bold.green + " has the highest GPA at a WHOPPING" + " #{highest}!".bold.green + " 🥇 " + " 👏 ".blink + " 🥇 " + " 👏 ".blink + " 🥇 " + " 👏 ".blink + " 🥇 "
+    puts "#{best_student.name}".bold.green + " has the highest GPA at a WHOPPING" + " #{highest.round(2)}!".bold.green + " 🥇 " + " 🏆 ".blink + " 🥇 " + " 🏆 ".blink + " 🥇 " + " 🏆 ".blink + " 🥇 "
     puts "------------------------------------------------------------------------"
     do_you_want_to_see_lowest_gpa
   end
@@ -114,7 +114,7 @@ class CommandLineInterfaceModel
     worst_student = Student.all.find do |student|
       student.gpa == lowest
     end
-    puts "#{worst_student.name}".bold.red + " has the lowest GPA at a PITIFUL" + " #{lowest}! ".bold.red + " 😭 " + " 😰 ".blink + " 😭 " + " 😰 ".blink + " 😭 " + " 😰 ".blink + " 😭 "
+    puts "#{worst_student.name}".bold.red + " has the lowest GPA at a PITIFUL" + " #{lowest.round(2)}! ".bold.red + " 😭 " + " 😰 ".blink + " 😭 " + " 😰 ".blink + " 😭 " + " 😰 ".blink + " 😭 "
     puts "------------------------------------------------------------------------"
     exit_program
   end
@@ -136,7 +136,7 @@ class CommandLineInterfaceModel
   end
 
   def enter_teacher_number
-    puts "Pease enter your teacher number."
+    puts "Please enter your teacher number."
     @input = gets.chomp
     if @input != nil
       find_teacher
