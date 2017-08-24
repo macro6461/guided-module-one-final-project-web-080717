@@ -292,7 +292,8 @@ class CommandLineInterfaceModel
   def list_students_in_class
     # subjects = @teacher.subjects.collect do |subject|
       puts "-----------------------------"
-      @teacher.students.each do |student|
+      sorted_students = @teacher.students.sort_by{|student| student.name.split(" ")[1].downcase}
+      sorted_students.each do |student|
         subject_grade = Subject.find_by(teacher_id: @teacher.id, student_id: student.id)
         # binding.pry
         printf "%-20s %s\n", student.name, "grade = #{subject_grade.student_grade}"
