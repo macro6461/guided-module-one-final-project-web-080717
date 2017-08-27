@@ -2,6 +2,7 @@ require 'pry'
 # require 'colorize'
 class CommandLineInterfaceModel
 
+  attr_accessor :student
 
   def greet
     puts "Welcome to the Classy Directory!"
@@ -27,9 +28,6 @@ class CommandLineInterfaceModel
     else
       would_you_give_a_grade
     end
-    # new_gpa = generate_gpa
-    # binding.pry
-    # @student.update(gpa: new_gpa)
   end
 
   def generate_gpa
@@ -55,11 +53,11 @@ class CommandLineInterfaceModel
     elsif @student.gpa.round(2).between?(65.0, 89.99)
       puts "Your current GPA is" + " #{@student.gpa.round(2)}".bold.yellow + " 😒"
       puts "You're doing..." + "fine".bold.yellow + ". Just " + "fine".bold.yellow + ". Are you happy with being..." + "just fine?".bold.yellow + " Or do you want to be more than..." + "just fine".bold.yellow + "?" + "I think you want more than fine but you're too scared to chase" + " GREATNESS".bold.green + ". Chase it. Quit your job. Start a fight. Prove you're alive. If you don't claim your humanity you will become a statistic." + " You have been warned.".bold.red
-    elsif @student.gpa.round(2).between?(40.0, 64.99)
+    elsif @student.gpa.round(2).between?(45.0, 64.99)
       puts "Your current GPA is" + " #{@student.gpa.round(2)}".bold.red + "🔥".blink + "😰" + "🔥".blink
       puts "You are" + " FAILING!!!".bold.red + " get it together #{@student.name}! COME ON! Do you think this is a" + " JOKE???".bold.red + " What have we got here, a fu*&ing comedian?? Private Joker??? I admire your honesty. Hell, I like you. You can come over to my house and - OK I'm getting off track here but the point is you're failing and you need to get it together."
-    elsif @student.gpa.round(2) <= 39.99
-      puts puts "Your current GPA is" + " #{@student.gpa.round(2)}".bold.red + "🔥".blink + "😰" + "🔥".blink
+    elsif @student.gpa.round(2) <= 44.99
+      puts "Your current GPA is" + " #{@student.gpa.round(2)}".bold.red + "🔥".blink + "😰" + "🔥".blink
       Launchy.open("https://www.youtube.com/watch?v=aYmOqPFyJPw")
     end
     can_we_help
@@ -290,16 +288,28 @@ class CommandLineInterfaceModel
   end
 
   def list_students_in_class
-    # subjects = @teacher.subjects.collect do |subject|
+    sum = 0
       puts "-----------------------------"
       sorted_students = @teacher.students.sort_by{|student| student.name.split(" ")[1].downcase}
-      sorted_students.each do |student|
+      individual_grade_array = sorted_students.collect do |student|
         subject_grade = Subject.find_by(teacher_id: @teacher.id, student_id: student.id)
         # binding.pry
         printf "%-20s %s\n", student.name, "grade = #{subject_grade.student_grade}"
+        sum += subject_grade.student_grade
       end
       puts "-----------------------------"
-    # end
+      class_average = sum.to_f / individual_grade_array.size
+      if class_average.round(2) >= 90.0
+        puts "The class average is: " + "#{class_average.round(2)}".bold.green + " 🍎 🍎 🍎"
+      elsif class_average.round(2).between?(65.0, 89.99)
+        puts "The class average is: " + "#{class_average.round(2)}".bold.yellow + " 🍎 🍎"
+      elsif class_average.round(2).between?(45.0, 64.99)
+        puts "The class average is: " + "#{class_average.round(2)}".bold.red + " 🍎"
+        Launchy.open("http://www.gettingsmart.com/2017/04/6-simple-ways-to-become-a-better-teacher-for-your-students/")
+      elsif class_average.round(2) <= 44.99
+        puts "The class average is: " + "#{class_average.round(2)}".bold.red
+        Launchy.open("http://www.alleducationschools.com/secondary-education/what-can-i-do-with-a-teaching-degree/")
+      end
     would_you_give_a_grade
   end
 
